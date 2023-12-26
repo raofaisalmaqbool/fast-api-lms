@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "fast-api-lms"
+version = "0.1.0"
+description = ""
+authors = ["faisalmaqbool3022 <faisal.maqbool@ylinx.pk>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
