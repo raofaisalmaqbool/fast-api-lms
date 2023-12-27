@@ -1,24 +1,28 @@
 from fastapi import FastAPI
+# from fastapi_admin.app import app as admin_app
+from api import users, courses, sections
+from db.db_setup import engine, SessionLocal
+from db.models import user, course
+from db.models.user import User
 
-# app = FastAPI()
+user.Base.metadata.create_all(bind=engine)
+course.Base.metadata.create_all(bind=engine)
+
 app = FastAPI(
     title="Fast API LMS",
     description="LMS for managing students and courses.",
     version="0.0.1",
     contact={
-        "name": "Faisal",
-        "email": "faisal@example.com",
+        "name": "Gwen",
+        "email": "gwen@example.com",
     },
     license_info={
         "name": "MIT",
     },
 )
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+# app.mount("/admin", admin_app)
 
-
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
+app.include_router(users.router)
+app.include_router(courses.router)
+app.include_router(sections.router)

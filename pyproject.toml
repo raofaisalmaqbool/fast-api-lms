@@ -9,6 +9,8 @@ readme = "README.md"
 python = "^3.10"
 sqlalchemy = "^2.0.23"
 psycopg2-binary = "^2.9.9"
+pydantic = {extras = ["email"], version = "^2.5.3"}
+fastapi-admin = "^1.0.4"
 
 
 [build-system]
