@@ -1,19 +1,17 @@
 from datetime import datetime
 import enum
-
 from sqlalchemy import Enum, Column, ForeignKey, Integer, String, Text, Boolean
 from sqlalchemy.orm import relationship
 from sqlalchemy_utils import URLType
-
 from ..db_setup import Base
 from .user import User
 from .mixins import Timestamp
 
 
 class ContentType(enum.Enum):
-    lesson = 1
-    quiz = 2
-    assignment = 3
+    lesson = 'lesson'
+    quiz = 'quiz'
+    assignment = 'assignment'
 
 
 class Course(Timestamp, Base):
