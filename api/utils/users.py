@@ -1,30 +1,32 @@
-from sqlalchemy.orm import Session
-from db.models.user import User
-from pydantic_schemas.user import UserCreate
+"""User utility functions for database operations."""
 
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
+from sqlalchemy.orm import Session
 
+from db.models.user import User
+from pydantic_schemas.user import UserCreate
 
-# def get_user(db: Session, user_id: int):
-#     return db.query(User).filter(User.id == user_id).first()
 
 async def get_user(db: AsyncSession, user_id: int):
+    """Get a user by ID using async session."""
     query = select(User).where(User.id == user_id)
     result = await db.execute(query)
     return result.scalar_one_or_none()
 
 
-
 def get_user_by_email(db: Session, email: str):
+    """Get a user by email address."""
     return db.query(User).filter(User.email == email).first()
 
 
 def get_users(db: Session, skip: int = 0, limit: int = 100):
+    """Get all users with pagination."""
     return db.query(User).offset(skip).limit(limit).all()
 
 
 def create_user(db: Session, user: UserCreate):
+    """Create a new user."""
     db_user = User(email=user.email, role=user.role)
     db.add(db_user)
     db.commit()

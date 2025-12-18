@@ -1,16 +1,33 @@
 [tool.poetry]
 name = "fast-api-lms"
 version = "0.1.0"
-description = ""
-authors = ["faisalmaqbool3022 <faisal.maqbool@ylinx.pk>"]
+description = "A Learning Management System (LMS) built with FastAPI and SQLAlchemy"
+authors = ["Faisal Maqbool <faisal.maqbool@example.com>"]
 readme = "README.md"
+license = "MIT"
+keywords = ["fastapi", "lms", "learning", "management", "system"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Internet :: WWW/HTTP",
+]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+fastapi = "^0.108.0"
+uvicorn = {extras = ["standard"], version = "^0.25.0"}
 sqlalchemy = "^2.0.23"
 psycopg2-binary = "^2.9.9"
 pydantic = {extras = ["email"], version = "^2.5.3"}
-fastapi-admin = "^1.0.4"
+pydantic-settings = "^2.0.0"
+sqlalchemy-utils = "^0.41.1"
+alembic = "^1.13.1"
+python-dotenv = "^1.0.0"
 asyncpg = "^0.29.0"
 
 

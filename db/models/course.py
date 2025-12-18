@@ -1,20 +1,26 @@
-from datetime import datetime
+"""Course, Section, ContentBlock and related models."""
+
 import enum
 from sqlalchemy import Enum, Column, ForeignKey, Integer, String, Text, Boolean
 from sqlalchemy.orm import relationship
 from sqlalchemy_utils import URLType
+
 from ..db_setup import Base
 from .user import User
 from .mixins import Timestamp
 
 
 class ContentType(enum.Enum):
-    lesson = 'lesson'
-    quiz = 'quiz'
-    assignment = 'assignment'
+    """Content block type enumeration."""
+
+    lesson = "lesson"
+    quiz = "quiz"
+    assignment = "assignment"
 
 
 class Course(Timestamp, Base):
+    """Course model representing a learning course."""
+
     __tablename__ = "courses"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -28,6 +34,8 @@ class Course(Timestamp, Base):
 
 
 class Section(Timestamp, Base):
+    """Section model representing a course section."""
+
     __tablename__ = "sections"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -40,24 +48,27 @@ class Section(Timestamp, Base):
 
 
 class ContentBlock(Timestamp, Base):
+    """ContentBlock model representing lesson, quiz, or assignment content."""
+
     __tablename__ = "content_blocks"
 
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(200), nullable=False)
     description = Column(Text, nullable=True)
-    type = Column(Enum(ContentType))
+    type = Column(Enum(ContentType), nullable=False)
     url = Column(URLType, nullable=True)
     content = Column(Text, nullable=True)
     section_id = Column(Integer, ForeignKey("sections.id"), nullable=False)
 
     section = relationship("Section", back_populates="content_blocks")
-    completed_content_blocks = relationship("CompletedContentBlock", back_populates="content_block")
+    completed_content_blocks = relationship(
+        "CompletedContentBlock", back_populates="content_block"
+    )
 
 
 class StudentCourse(Timestamp, Base):
-    """
-    Students can be assigned to courses.
-    """
+    """StudentCourse model representing course enrollment."""
+
     __tablename__ = "student_courses"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -70,9 +81,8 @@ class StudentCourse(Timestamp, Base):
 
 
 class CompletedContentBlock(Timestamp, Base):
-    """
-    This shows when a student has completed a content block.
-    """
+    """CompletedContentBlock model tracking student progress on content."""
+
     __tablename__ = "completed_content_blocks"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -83,4 +93,6 @@ class CompletedContentBlock(Timestamp, Base):
     grade = Column(Integer, default=0)
 
     student = relationship(User, back_populates="student_content_blocks")
-    content_block = relationship(ContentBlock, back_populates="completed_content_blocks")
+    content_block = relationship(
+        ContentBlock, back_populates="completed_content_blocks"
+    )
